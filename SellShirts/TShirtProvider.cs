@@ -15,5 +15,15 @@ namespace SellShirts
             new TShirt("ps", "PluralSight", 60000),
             new TShirt("pslive", "PluralSight Live", 60000)
             );
+              
+
+        public static TShirt SelectRandomShirt()
+        {
+            int selectedIndex = Rnd.NextInt(AllShirts.Length);
+            return AllShirts[selectedIndex];
+        }
+
+
+        public static ImmutableDictionary<string, TShirt> AllShirtsByCode { get; } = AllShirts.ToImmutableDictionary(x => x.Code);
     }
 }

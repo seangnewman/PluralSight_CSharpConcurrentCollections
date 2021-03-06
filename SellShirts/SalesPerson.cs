@@ -18,39 +18,38 @@ namespace SellShirts
 
             while (DateTime.Now - start < workday)
             {
-                var result = ServeCustomer(controller);
-                if (result.Status != null)
-                    Console.WriteLine($"{Name}: {result.Status}");
-                if (!result.ShirtsInStock)
-                    break;
+                string msg = ServeCustomer(controller);
+                if(msg != null)
+                    Console.WriteLine($"{Name}: {msg} ");
             }
         }
 
-        public (bool ShirtsInStock, string Status) ServeCustomer(StockController controller)
+        public string ServeCustomer(StockController controller)
         {
-            var result = controller.SelectRandomShirt();
-            TShirt shirt = result.Shirt;
-            if (result.Result == SelectResult.NoStockLeft)
+            Thread.Sleep(Rnd.NextInt(3));
+            TShirt shirt = TShirtProvider.SelectRandomShirt();
+            string code = shirt.Code;
+
+            bool custSells = Rnd.TrueWithProb(1.0 / 6.0);
+
+            if (custSells)
             {
-                return (false, "All shirts sold");
+                int quantity = Rnd.NextInt(9) + 1;
+                controller.BuyShirts(code, quantity);
+                return $"Bought {quantity} of {shirt}";
             }
-            else if(result.Result == SelectResult.ChosenShirtSold)
+            else
             {
-                return (true, "Can't show shirt to customer - already sold");
+                bool success = controller.TrySellShirt(code);
+                if (success)
+                {
+                    return $"Sold {shirt}";
+                }
+                else
+                {
+                    return $"Couldn't sell {shirt}: Out of stock";
+                }
             }
-
-            Thread.Sleep(Rnd.NextInt(30));
-
-            // customer chooses to buy with only 20% probability
-            if (Rnd.TrueWithProb(0.2))
-            {
-                bool sold = controller.Sell(shirt.Code);
-
-                return sold ? (true, $"Sold {shirt.Name}") : (true, $"Cannot sell {shirt.Name}: Already sold");
-            }
-
-            return (true, null);
-
         }
     }
 }
