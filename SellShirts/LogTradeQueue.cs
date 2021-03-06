@@ -4,9 +4,9 @@ using System.Threading;
 
 namespace SellShirts
 {
-    public  class LogTradeQueue
+    public  class LogTradeQueue 
     {
-        private readonly ConcurrentBag<Trade> _tradesToLog = new ConcurrentBag<Trade>();
+        private readonly IProducerConsumerCollection<Trade> _tradesToLog = new ConcurrentQueue<Trade>();
         private readonly StaffRecords _staffLogs;
         private bool _workingDayComplete;
 
@@ -43,7 +43,7 @@ namespace SellShirts
         }
 
         public void SetNoMoreTrades() => _workingDayComplete = true;
-        public void QueueTradeForLogging(Trade trade) => _tradesToLog.Add(trade);
+        public void QueueTradeForLogging(Trade trade) => _tradesToLog.TryAdd(trade);
          
     }
 }
