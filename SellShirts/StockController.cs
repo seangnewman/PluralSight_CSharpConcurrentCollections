@@ -7,7 +7,7 @@ using System.Threading;
 namespace SellShirts
 {
     public enum SelectResult { Success, NoStockLeft, ChosenShirtSold}
-    internal class StockController
+    public class StockController
     {
 
         private readonly ConcurrentDictionary<string, int> _stock = new ConcurrentDictionary<string, int>();

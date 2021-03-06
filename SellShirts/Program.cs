@@ -8,19 +8,44 @@ namespace SellShirts
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             StockController controller = new StockController();
             TimeSpan workday = new TimeSpan(0, 0, 0, 0, 500);
 
-            Task task1 = Task.Run(() => new SalesPerson("Tim").Work(workday, controller));
-            Task task2 = Task.Run(() => new SalesPerson("Koffi").Work(workday, controller));
-            Task task3 = Task.Run(() => new SalesPerson("Julie").Work(workday, controller));
-            Task task4 = Task.Run(() => new SalesPerson("Michael").Work(workday, controller));
+            StaffRecords staffLogs = new StaffRecords();
+            LogTradeQueue tradesQueue = new LogTradeQueue(staffLogs);
 
-            Task.WaitAll(task1, task2, task3, task4);
+            SalesPerson[] staff =
+            {
+                new SalesPerson("Sahil"),
+                new SalesPerson("Julie"),
+                new SalesPerson("Kim"),
+                new SalesPerson("Chuck")
+
+            };
+            List<Task> salesTasks = new List<Task>();
+
+            foreach (var person in staff)
+            {
+                salesTasks.Add(Task.Run( ()=>
+                        person.Work(workday, controller, tradesQueue
+                    ))); ;
+            }
+
+            Task[] loggingTasks =
+            {
+                Task.Run(() => tradesQueue.MonitorAndLogTrades()),
+                Task.Run(() => tradesQueue.MonitorAndLogTrades()),
+            };
+
+            Task.WaitAll(salesTasks.ToArray());   // Wait for all trades to complete
+            tradesQueue.SetNoMoreTrades();      // Indicate no more trades to be completed
+            Task.WaitAll(loggingTasks);               // Wait for logging to complete
+
 
             controller.DisplayStock();
+            staffLogs.DisplayCommissions(staff);
         }
     }
 }
