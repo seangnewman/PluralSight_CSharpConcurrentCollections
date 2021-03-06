@@ -6,7 +6,7 @@ namespace SellShirts
 {
     public  class LogTradeQueue
     {
-        private readonly ConcurrentStack<Trade> _tradesToLog = new ConcurrentStack<Trade>();
+        private readonly ConcurrentBag<Trade> _tradesToLog = new ConcurrentBag<Trade>();
         private readonly StaffRecords _staffLogs;
         private bool _workingDayComplete;
 
@@ -23,7 +23,7 @@ namespace SellShirts
             while (true)
             {
                 Trade nextTrade;
-                bool done = _tradesToLog.TryPop(out nextTrade);
+                bool done = _tradesToLog.TryTake(out nextTrade);
 
                 if (done)
                 {
@@ -43,7 +43,7 @@ namespace SellShirts
         }
 
         public void SetNoMoreTrades() => _workingDayComplete = true;
-        public void QueueTradeForLogging(Trade trade) => _tradesToLog.Push(trade);
+        public void QueueTradeForLogging(Trade trade) => _tradesToLog.Add(trade);
          
     }
 }
