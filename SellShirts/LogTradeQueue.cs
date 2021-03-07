@@ -6,9 +6,11 @@ namespace SellShirts
 {
     public  class LogTradeQueue 
     {
-        private readonly IProducerConsumerCollection<Trade> _tradesToLog = new ConcurrentQueue<Trade>();
+        // BlockingCollection wraps (encapsulates) all producer consumer collections (ConcurrentQueue, ConcurrentStack, ConcurrentBag, etc)
+        // Defaults to ConcurrentQueue
+        private readonly BlockingCollection<Trade> _tradesToLog = new BlockingCollection<Trade>();
         private readonly StaffRecords _staffLogs;
-        private bool _workingDayComplete;
+       // private bool _workingDayComplete;
 
 
         public LogTradeQueue(StaffRecords staffLogs)
@@ -18,31 +20,39 @@ namespace SellShirts
 
         public StaffRecords StaffLogs { get; }
 
+        //public void MonitorAndLogTrades()
+        //{
+        //    while (true)
+        //    {
+        //        try
+        //        {
+                    
+        //            Trade nextTrade = _tradesToLog.Take();   // BlockingCollections waits and blocks until there is an item in queue
+        //            _staffLogs.LogTrades(nextTrade);
+        //            Console.WriteLine($"Processing transaction from {nextTrade.Person.Name}");
+        //        }
+        //        catch (InvalidOperationException ex)            // If no more items are expected BlockingException throws exception
+        //        {
+        //            Console.WriteLine(ex.Message);
+        //            return;
+        //        }
+        //    }
+        //}
+
         public void MonitorAndLogTrades()
         {
-            while (true)
+            // GetConsumingEnumerable will make it look like enumerate the next item in collection,  
+            // Note that we are consuming and circumventing read only of foreach  .. we cannot enumerate the underlying collection
+            // It will enumerate the copy of the queue, not the queue
+            foreach (var nextTrade in _tradesToLog.GetConsumingEnumerable())
             {
-                Trade nextTrade;
-                bool done = _tradesToLog.TryTake(out nextTrade);
-
-                if (done)
-                {
-                    _staffLogs.LogTrades(nextTrade);
-                    Console.WriteLine($"Processing transaction from {nextTrade.Person.Name}");
-                }else if(_workingDayComplete)
-                {
-                    Console.WriteLine("No more sales to log - exiting");
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("No transactions available");
-                    Thread.Sleep(500);                                                          // polling the queue *** bad practice ****
-                }
+                _staffLogs.LogTrades(nextTrade);
+                Console.WriteLine($"Processing transaction from {nextTrade.Person.Name}");
             }
         }
 
-        public void SetNoMoreTrades() => _workingDayComplete = true;
+        //public void SetNoMoreTrades() => _workingDayComplete = true;
+        public void SetNoMoreTrades() => _tradesToLog.CompleteAdding();
         public void QueueTradeForLogging(Trade trade) => _tradesToLog.TryAdd(trade);
          
     }
