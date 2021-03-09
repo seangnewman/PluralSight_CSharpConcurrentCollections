@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SellShirts", "SellShirts\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryBenchmark", "DictionaryBenchmark\DictionaryBenchmark.csproj", "{8FE34EF0-48D1-434F-B0B1-B75A4D7E86C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumerateDictionary", "EnumerateDictionary\EnumerateDictionary.csproj", "{36D5909D-5552-4D61-B7B7-901370AC05E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8FE34EF0-48D1-434F-B0B1-B75A4D7E86C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FE34EF0-48D1-434F-B0B1-B75A4D7E86C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FE34EF0-48D1-434F-B0B1-B75A4D7E86C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36D5909D-5552-4D61-B7B7-901370AC05E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36D5909D-5552-4D61-B7B7-901370AC05E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36D5909D-5552-4D61-B7B7-901370AC05E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36D5909D-5552-4D61-B7B7-901370AC05E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
