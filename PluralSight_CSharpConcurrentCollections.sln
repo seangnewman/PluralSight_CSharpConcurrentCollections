@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubmitOrders", "SubmitOrder
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SellShirts", "SellShirts\SellShirts.csproj", "{D01CFF73-6CCE-48FB-A1FD-028D3AE05C50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryBenchmark", "DictionaryBenchmark\DictionaryBenchmark.csproj", "{8FE34EF0-48D1-434F-B0B1-B75A4D7E86C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D01CFF73-6CCE-48FB-A1FD-028D3AE05C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D01CFF73-6CCE-48FB-A1FD-028D3AE05C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D01CFF73-6CCE-48FB-A1FD-028D3AE05C50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FE34EF0-48D1-434F-B0B1-B75A4D7E86C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FE34EF0-48D1-434F-B0B1-B75A4D7E86C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FE34EF0-48D1-434F-B0B1-B75A4D7E86C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FE34EF0-48D1-434F-B0B1-B75A4D7E86C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
